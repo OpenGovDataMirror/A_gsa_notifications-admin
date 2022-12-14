@@ -1,0 +1,59 @@
+{% extends "withnav_template.html" %}
+{% from "components/banner.html" import banner %}
+{% from "components/ajax-block.html" import ajax_block %}
+{% from "components/page-header.html" import page_header %}
+{% from "components/page-footer.html" import page_footer %}
+{% from "components/back-link/macro.njk" import govukBackLink %}
+
+{% block service_page_title %}
+  {{ 1|message_count_label(template.template_type, suffix='') | capitalize }}
+{% endblock %}
+
+{% block backLink %}
+  {% if back_link %}
+    {{ govukBackLink({ "href": back_link }) }}
+  {% endif %}
+{% endblock %}
+
+{% block maincolumn_content %}
+
+    {{ page_header(
+      1|message_count_label(template.template_type, suffix='') | capitalize
+    ) }}
+    <p class="govuk-body">
+      {% if help %}
+        ‘{{ template.name }}’
+      {% else %}
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.view_template', service_id=current_service.id, template_id=template.id) }}">‘{{ template.name }}’</a>
+      {% endif %}
+      was sent
+      {% if job and job.original_file_name != 'Report' %}
+        {% set destination =
+          {'email': 'an email address', 'sms': 'a phone number'} %}
+        to {{ destination[template.template_type] }} from
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.view_job', service_id=current_service.id, job_id=job.id) }}">{{ job.original_file_name }}</a>
+      {% elif created_by %}
+        by {{ created_by.name }}
+      {% endif %}
+      {{ created_at|format_datetime_human }}
+    </p>
+
+    <div class="">
+      {{ template|string }}
+    </div>
+
+    {% if template.template_type == 'email' %}
+      <div class="js-stick-at-bottom-when-scrolling">
+        {{ ajax_block(partials, updates_url, 'status', finished=finished) }}
+      </div>
+    {% elif template.template_type == 'sms' %}
+      {{ ajax_block(partials, updates_url, 'status', finished=finished) }}
+    {% endif %}
+
+    {% if current_user.has_permissions('send_messages') and current_user.has_permissions('view_activity') and template.template_type == 'sms' and can_receive_inbound %}
+      <p class="govuk-body">
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.conversation', service_id=current_service.id, notification_id=notification_id, _anchor='n{}'.format(notification_id)) }}">See all text messages sent to this phone number</a>
+      </p>
+    {% endif %}
+
+{% endblock %}

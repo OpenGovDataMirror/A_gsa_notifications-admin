@@ -1,0 +1,83 @@
+{% macro folder_path(
+  folders,
+  service_id,
+  template_type,
+  current_user,
+  link_current_item=False,
+  root_element='h1'
+) %}
+  <{{ root_element }} class="heading-medium folder-heading"{% if root_element == 'h1' %} id="page-header"{% endif %}>
+    {% for folder in folders %}
+      {% if loop.last and not link_current_item %}
+        {% if folder.template_type or not folder.id %}
+          <span class="folder-heading-template">{{ folder.name }}</span>
+        {% else %}
+          <span class="folder-heading-folder">{{ folder.name }}</span>
+        {% endif %}
+      {% else %}
+        {% if folder.id %}
+          {% if current_user.has_template_folder_permission(folder) %}
+            <a href="{{ url_for('.choose_template', service_id=service_id, template_type=template_type, template_folder_id=folder.id) }}" class="govuk-link govuk-link--no-visited-state folder-heading-folder {% if loop.index < (loop.length - 1) %}folder-heading-folder-truncated{% endif %}" title="{{ folder.name }}">{{ folder.name }}</a>
+          {% else %}
+            <span class="folder-heading-folder">{{ folder.name }}</span>
+          {% endif %}
+        {% else %}
+          <a href="{{ url_for('.choose_template', service_id=service_id, template_type=template_type) }}" title="Templates" class="govuk-link govuk-link--no-visited-state {% if loop.length > 2 %}folder-heading-folder-root-truncated{% endif %}">Templates</a>
+        {% endif %}
+        {% if not loop.last %}{{ folder_path_separator() }}{% endif %}
+      {% endif %}
+    {% endfor %}
+  </{{ root_element }}>
+{% endmacro %}
+
+
+{% macro copy_folder_path(
+  folder_path,
+  current_service_id,
+  from_service,
+  current_user
+) %}
+  {% if folder_path %}
+    <h2 class="heading-medium folder-heading">
+      {% if folder_path|length == 1 %}
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.choose_template_to_copy', service_id=current_service_id) }}">Services</a>
+        {{ folder_path_separator() }}
+      {% endif %}
+      {% for folder in folder_path %}
+        {% if loop.last %}
+          <span class="folder-heading-folder">
+            {{ folder.name if folder.id else from_service.name }}
+          </span>
+        {% else %}
+          {% if folder.id %}
+            {% if current_user.has_template_folder_permission(folder) %}
+              <a href="{{ url_for('.choose_template_to_copy', service_id=current_service_id, from_service=from_service.id, from_folder=folder.id) }}" class="govuk-link govuk-link--no-visited-state folder-heading-folder">{{ folder.name }}</a>
+             {% else %}
+              <span class="folder-heading-folder">{{ folder.name }}</span>
+            {% endif %}
+            {% if not loop.last %}{{ folder_path_separator() }}{% endif %}
+          {% elif folder.parent_id == None %}
+            <a href="{{ url_for('.choose_template_to_copy', service_id=current_service_id, from_service=from_service.id, from_folder=folder.id) }}" class="govuk-link govuk-link--no-visited-state folder-heading-folder">{{ from_service.name }}</a> {% if not loop.last %}{{ folder_path_separator() }}{% endif %}
+          {% else %}
+            <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.choose_template_to_copy', service_id=current_service_id, from_service=from_service.id) }}">{{ from_service.name }}</a> {% if not loop.last %}{{ folder_path_separator() }}{% endif %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </h2>
+  {% endif %}
+{% endmacro %}
+
+
+{% macro page_title_folder_path(folders) %}
+  {% for folder in folders|reverse %}
+    {{ folder.name }}
+    {% if not loop.last %}
+      –
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+
+{% macro folder_path_separator() %}
+  <span class="folder-heading-separator"></span>
+{% endmacro %}

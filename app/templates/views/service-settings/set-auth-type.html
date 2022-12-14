@@ -1,0 +1,44 @@
+{% extends "withnav_template.html" %}
+{% from "components/page-header.html" import page_header %}
+{% from "components/page-footer.html" import page_footer %}
+{% from "components/back-link/macro.njk" import govukBackLink %}
+
+{% block service_page_title %}
+  Sign-in method
+{% endblock %}
+
+{% block backLink %}
+  {{ govukBackLink({ "href": url_for('main.service_settings', service_id=current_service.id) }) }}
+{% endblock %}
+
+{% block maincolumn_content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-five-sixths">
+      {{ page_header('Sign-in method') }}
+      {% if 'email_auth' in current_service.permissions %}
+        <p class="heading-small bottom-gutter-2-3">
+          Email link or text message code
+        </p>
+        <p class="govuk-body">
+          Your team members can sign in with either a text message code
+          or an email link.
+        </p>
+        <p class="govuk-body">
+          You can <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.manage_users', service_id=current_service.id) }}">set the sign-in method for individual team members</a>.
+        </p>
+      {% else %}
+        <p class="heading-small bottom-gutter-2-3">
+          Text message code
+        </p>
+        <p class="govuk-body">
+          Your team members sign in with a text message code.
+        </p>
+        <p class="govuk-body">
+          <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.support') }}">Contact us</a> if signing in with a text message is a problem for your team.
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}

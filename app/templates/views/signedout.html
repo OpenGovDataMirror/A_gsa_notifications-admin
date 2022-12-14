@@ -1,0 +1,188 @@
+{% extends "fullwidth_template.html" %}
+{% from "components/button/macro.njk" import govukButton %}
+
+{% block meta %}
+  <meta name="description" content="U.S. Notify lets you send text messages and email to your users. Try it now if you work in federal, state or local government.">
+{% endblock %}
+
+{% block pageTitle %}
+  U.S. Notify
+{% endblock %}
+
+{% block content %}
+
+  <div class="product-page-intro">
+    <div class="product-page-intro-wrapper" data-module="homepage">
+      <nav class="breadcrumbs breadcrumbs--inverse" aria-label="Breadcrumbs">
+       <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+         <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+           <a class="govuk-link govuk-link--no-visited-state" href="https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/tts-solutions" itemprop="item"><span itemprop="name">TTS Solutions</span></a>
+         </li>
+         <li class="breadcrumbs__item breadcrumbs__item--active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+           <a class="govuk-link govuk-link--no-visited-state" href="#main" itemprop="item"><span itemprop="name">U.S. Notify</span></a>
+         </li>
+       </ol>
+      </nav>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1>
+            Send text messages and email to your users
+          </h1>
+          <p class="govuk-body">
+            Try U.S. Notify now if you work in federal, state or local government.
+          </p>
+          <div class="button-container">
+            {{ govukButton({
+              "element": "a",
+              "text": "Create an account",
+              "classes": "product-page-button button-container__button govuk-!-margin-right-3",
+              "href": url_for('main.register' )
+            }) }}
+            or <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('.sign_in' )}}">sign in</a> if you’ve used
+            it before
+          </div>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <img
+            src="{{ asset_url('images/product/proposition-illustration.png') }}"
+            alt="An illustration of notifications to a phone, a laptop, and a letter.">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-page-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2>
+          Control your content
+        </h2>
+        <p class="govuk-body">
+          You do not need any technical knowledge to create message templates.
+        </p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img
+          src="{{ asset_url('images/product/01-templates.svg') }}"
+          alt="Example screenshot of adding a new text message template">
+      </div>
+    </div>
+  </div>
+  <div class="product-page-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2>
+          See how your messages perform
+        </h2>
+        <p class="govuk-body">
+          Track how many messages you’ve sent and
+          find out which ones are not being delivered.
+        </p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img
+          src="{{ asset_url('images/product/02-reporting.svg') }}"
+          alt="A screenshot of U.S. Notify showing counts of emails and text messages sent"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="product-page-section">
+    <h2 class="with-keyline">
+      Send messages manually or automatically
+    </h2>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <p class="govuk-body">
+          Upload a spreadsheet of email&nbsp;addresses or
+          phone&nbsp;numbers and Notify sends the messages.
+        </p>
+        <img
+          src="{{ asset_url('images/product/03-spreadsheet.svg') }}"
+          alt="A screenshot of a spreadsheet with columns for email address, name and colour"
+        >
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <p class="govuk-body">
+          Integrate the U.S. Notify API with your web&nbsp;application or
+          back office system.
+        </p>
+        <img
+          src="{{ asset_url('images/product/04-api.svg') }}"
+          alt="A screenshot of some computer code with a notify.send_email function"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="product-page-section">
+    <div class="with-keyline bottom-gutter-2" id="whos-using-notify">
+      <h2>Who’s using U.S. Notify</h2>
+      <div class="govuk-grid-row bottom-gutter">
+        <div class="govuk-grid-column-one-half">
+          <span class="govuk-visually-hidden">There are</span>
+          <div class="product-page-big-number">{{ counts.organisations|format_thousands }}</div>
+          <span>organizations</span>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <span class="govuk-visually-hidden">and</span>
+          <div class="product-page-big-number">{{ counts.services|format_thousands }}</div>
+          <span>services</span>
+          <span class="govuk-visually-hidden">using Notify.</span>
+        </div>
+      </div>
+      <p class="govuk-body">
+        See the
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('main.performance') }}">list of services and organizations</a>.
+      </p>
+    </div>
+  </div>
+  <!-- <div class="product-page-section">
+    <div class="with-keyline bottom-gutter-2">
+      <h2>Pricing</h2>
+      <div class="govuk-grid-row bottom-gutter">
+        <div class="govuk-grid-column-one-half">
+          <h3 class="govuk-visually-hidden">Emails</h3>
+          <div class="product-page-big-number">Unlimited</div>
+          <span>free emails</span>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <h3 class="govuk-visually-hidden">Text messages</h3>
+          <div class="product-page-big-number">Up to 40,000</div>
+          <span>free text messages a year,<br>
+          then {{ sms_rate }} pence per message</span>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <p class="align-with-big-number-hint">
+            There’s no monthly charge, no setup fee and no&nbsp;procurement process.
+          </p>
+          <p class="govuk-body">Find out more about <a class="govuk-link govuk-link--no-visited-state" href="https://www.notifications.service.gov.uk/pricing">pricing</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="product-page-section">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <h2 class="with-keyline">
+          The team
+        </h2>
+        <p class="govuk-body">
+          U.S. Notify is built and maintained by the Public Benefits Studio, within the General Services Administration's Technology Transformation Services.
+        </p>
+        <p class="govuk-body">
+          <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('main.support') }}">Contact us</a> if you have a question or want
+          to give feedback.
+        </p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <img
+          src="{{ asset_url('images/product/team.jpg') }}"
+          alt="A photo of the U.S. Notify team gathered around a big screen. One team member is pointing at a graph on the screen."
+        >
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

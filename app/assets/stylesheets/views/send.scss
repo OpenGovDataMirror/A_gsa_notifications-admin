@@ -1,0 +1,14 @@
+.send-one-off-form {
+
+  .form-group,
+  .govuk-form-group {
+    margin-bottom: 20px;
+  }
+
+}
+
+.send-recipient {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

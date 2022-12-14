@@ -1,0 +1,64 @@
+{
+  "name": "notifications-admin",
+  "version": "0.0.1",
+  "description": "Admin front end for Notify",
+  "engines": {
+    "node": ">=10.15.3"
+  },
+  "scripts": {
+    "lint": "gulp lint",
+    "test": "jest --config tests/javascripts/jest.config.js tests/javascripts",
+    "test-watch": "jest --watch --config tests/javascripts/jest.config.js tests/javascripts",
+    "build": "gulp",
+    "watch": "gulp watch",
+    "audit": "better-npm-audit audit --production --level low"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GSA/notifications-admin.git"
+  },
+  "author": "General Services Administration",
+  "license": "CC0",
+  "homepage": "https://github.com/GSA/notifications-admin#readme",
+  "dependencies": {
+    "cbor-js": "0.1.0",
+    "govuk_frontend_toolkit": "8.1.0",
+    "govuk-elements-sass": "3.1.2",
+    "govuk-frontend": "2.13.0",
+    "hogan": "1.0.2",
+    "jquery": "3.6.1",
+    "leaflet": "1.9.2",
+    "morphdom": "2.6.1",
+    "query-command-supported": "1.0.0",
+    "textarea-caret": "3.1.0",
+    "timeago": "1.6.7"
+  },
+  "devDependencies": {
+    "@babel/core": "7.19.6",
+    "@babel/preset-env": "7.19.4",
+    "better-npm-audit": "^3.7.3",
+    "gulp": "4.0.2",
+    "gulp-add-src": "1.0.0",
+    "gulp-babel": "8.0.0",
+    "gulp-better-rollup": "4.0.1",
+    "gulp-clean-css": "4.3.0",
+    "gulp-concat": "2.6.1",
+    "gulp-css-url-adjuster": "0.2.3",
+    "gulp-include": "2.4.1",
+    "gulp-jshint": "2.1.0",
+    "gulp-prettyerror": "2.0.0",
+    "gulp-sass": "5.1.0",
+    "gulp-sass-lint": "1.4.0",
+    "gulp-uglify": "3.0.2",
+    "jest": "29.2.2",
+    "jest-each": "^29.2.1",
+    "jest-environment-jsdom": "^29.2.2",
+    "jshint": "2.13.5",
+    "jshint-stylish": "2.2.1",
+    "rollup": "1.32.1",
+    "rollup-plugin-commonjs": "10.1.0",
+    "rollup-plugin-node-resolve": "5.2.0",
+    "sass": "1.55.0",
+    "streamqueue": "1.1.2"
+  }
+}

@@ -1,0 +1,40 @@
+{
+    "name": "notification-admin",
+    "dockerComposeFile": "../docker-compose.devcontainer.yml",
+    "service": "admin",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "remoteEnv": {
+        "PATH": "/home/vscode/.local/bin:${containerEnv:PATH}" // give our installed Python modules precedence
+    },
+    "settings": {
+        "[python]": {
+            "editor.formatOnSave": true
+        },
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+        "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+        "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+        "python.analysis.extraPaths": [
+            "/home/vscode/.local/lib/python3.9/site-packages"
+        ]
+    },
+    "extensions": [
+        "donjayamanne.python-extension-pack",
+        "ms-python.vscode-pylance",
+        "eamodio.gitlens",
+        "wholroyd.jinja",
+        "pmbenjamin.vscode-snyk",
+        "visualstudioexptteam.vscodeintellicode",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "yzhang.markdown-all-in-one"
+    ],
+    "forwardPorts": [
+        6012
+    ],
+    "postCreateCommand": "chmod u+x devcontainer-admin/scripts/notify-admin-entrypoint.sh && ./devcontainer-admin/scripts/notify-admin-entrypoint.sh",
+    "remoteUser": "vscode"
+}

@@ -1,0 +1,35 @@
+{% extends "admin_template.html" %}
+
+{% block per_page_title %}
+  {% block org_page_title %}{% endblock %} – {{ current_org.name }}
+{% endblock %}
+
+{% block main %}
+  <div class="govuk-width-container">
+    <div class="navigation-service">
+      {% if current_user.platform_admin %}
+        <a href="{{ url_for('.organisations') }}" class="govuk-link govuk-link--no-visited-state navigation-organisation-link">Organisations</a>
+      {% endif %}
+      <div class="navigation-service-name govuk-!-font-weight-bold">
+        {{ current_org.name }}
+      </div>
+      <a href="{{ url_for('main.choose_account') }}" class="govuk-link govuk-link--no-visited-state navigation-service-switch">Switch service</a>
+    </div>
+    <div class="govuk-grid-row govuk-!-padding-bottom-12">
+      <div class="govuk-grid-column-one-quarter">
+        {% include "org_nav.html" %}
+      </div>
+      <div class="govuk-grid-column-three-quarters">
+        {% block beforeContent %}
+          {% block backLink %}{% endblock %}
+        {% endblock %}
+        <main class="govuk-main-wrapper column-main govuk-!-padding-top-0 govuk-!-padding-bottom-0" id="main-content" role="main" >
+          {% block content %}
+            {% include 'flash_messages.html' %}
+            {% block maincolumn_content %}{% endblock %}
+          {% endblock %}
+        </main>
+      </div>
+    </div>
+  </div>
+{% endblock %}
